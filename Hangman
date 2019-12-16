@@ -1,0 +1,64 @@
+import random
+from typing import List
+
+file = open("hangman.txt", "rt")  # opens txt file containing hangman words
+contents = file.read()
+file.close()
+contents = contents.split("\n")
+word = random.choice(contents)  # opens file and outputs random hangman word from file
+word_len = len(word)
+guess_word = []
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+letters_guessed = []
+
+# Display Functions
+def word_into_guess(letters: List):
+    print("Word to guess: {0}".format(" ".join(letters)))
+
+def guesses_remaining(current: int, total: int):
+    print("You have {0}/{1}".format(current, total) + " guesses remaining.")
+
+# Game Functions
+def encode_word():
+    for character in word:
+        guess_word.append("-")
+    print("The word is " + str(word_len) + " letters long.")
+    print("Only guess 1 letter from a-z\n")
+    word_into_guess(guess_word)
+
+def guessing():
+    guesses_used = 1
+    max_guesses = 7
+    guesses_remaining(guesses_used, max_guesses)
+
+    while guesses_used < max_guesses:
+        guess = input("Pick a letter\n").lower()
+        if not guess in alphabet:
+            print("Enter a letter from a-z")
+        elif guess in letters_guessed:
+            print("You have already guessed that letter")
+        else:
+            letters_guessed.append(guess)
+            if guess in word:
+                print("Correct!")
+                for x in range(0, word_len):
+                    if word[x] == guess:
+                        guess_word[x] = guess
+                word_into_guess(guess_word)
+                guesses_remaining(guesses_used, max_guesses)
+                if not '-' in guess_word:
+                    print("You Won. The word was " + word)
+                    break
+            else:
+                print("That letter is not in the word. Try again")
+                guesses_used += 1
+                word_into_guess(guess_word)
+                guesses_remaining(guesses_used, max_guesses)
+                if guesses_used == max_guesses:
+                    print("You lost. Game over. The word was " + word)
+
+if __name__ == "__main__":
+    encode_word()
+    guessing()
+    
+    
