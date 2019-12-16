@@ -1,0 +1,41 @@
+import random
+number = random.randint(1, 20)  # selects random integer between a & b
+
+print("Guess the number I select between 1 and 20.")
+
+print("How many guesses would you like?")
+guesses = input()  # determines how many guesses the player wants
+guesses = int(guesses)
+
+guessesUsed = 0
+
+while guessesUsed < guesses:  # loops while you still have guesses left
+
+    print("What is your guess?")
+    guess = input()
+    guess = int(guess)
+
+    guessesUsed += 1
+
+    guessesLeft = guesses - guessesUsed
+    guessesLeft = str(guessesLeft)
+
+    if guess < number:
+        print("Your guess was too low. You have " + guessesLeft + " left")
+
+    if guess > number:
+        print("Your guess was too high. You have " + guessesLeft + " left")
+
+    if guess == number:
+        break
+
+if guess == number:
+    guessesUsed = str(guessesUsed)
+    print("Good job, it took you " + guessesUsed + " guesses to get the answer")
+
+if guess != number:
+    number = str(number)
+    guesses = str(guesses)
+    print("You didn't guess the answer in " + guesses + " guesses. The number was " + number)
+
+
